@@ -33,6 +33,12 @@ class MagicMoveTransion: NSObject, UIViewControllerAnimatedTransitioning {
         container.addSubview(snapshotView)
         
         //5.执行动画
+        /*
+        这时avatarImageView.frame的值只是跟在IB中一样的，
+        如果换成屏幕尺寸不同的模拟器运行时avatarImageView会先移动到IB中的frame,动画结束后才会突然变成正确的frame。
+        所以需要在动画执行前执行一次toVC.avatarImageView.layoutIfNeeded() update一次frame
+        */
+        toVC.avatarImageView.layoutIfNeeded()
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                 snapshotView.frame = toVC.avatarImageView.frame
                 toVC.view.alpha = 1
